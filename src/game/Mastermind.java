@@ -10,18 +10,36 @@ public class Mastermind {
 	public static final String USED_SECRET = "X";
 	public static final String USED_GUESS = "Z";
 	public static final int NUM_POSITIONS = 6;
+	public static final int NUM_ROUNDS = 12;
 	public static final String INSTRUCTIONS = "Enter a code\n" +
 			"Separate pins with a space\n" +
 			"R = red, Y = yellow, G = green, B = blue, V = violet, W = white";
-
+	private boolean game_won = false;
+	
 	public String[] secret_code = new String[NUM_POSITIONS];
 	public static Scanner scan;
+	public int round = 0;
 
 	public Mastermind() {
 		scan = new Scanner(System.in);
 		generate_random_code();
 		
 	}
+	
+	public void user_play_game() {
+		
+		while(!game_won && round < NUM_ROUNDS) {
+			user_make_guess();
+			++round;
+		}
+		if(game_won) {
+			System.out.println("CONGRATULATIONS YOU WIN");
+		}
+		else {
+			System.out.println("YOU LOSE :(");
+		}
+	}
+	
 	public void generate_random_code() {
 		Random generator = new Random();
 		for(int i = 0; i < NUM_POSITIONS; ++i) {
@@ -29,8 +47,10 @@ public class Mastermind {
 		}
 	}
 
-	public void make_guess() {
+	public void user_make_guess() {
 
+		System.out.println();
+		System.out.println("Round " + String.valueOf(round + 1));
 		System.out.println(INSTRUCTIONS);
 		String[] code_str = scan.nextLine().split(" ");
 		String [] code_guess = new String[6];
@@ -52,6 +72,7 @@ public class Mastermind {
 
 
 		int[] code_grade = grade(code_guess);
+		if(code_grade[0] == NUM_POSITIONS) game_won = true;
 
 		System.out.println(String.valueOf(code_grade[0]) + " pins with correct position and color");
 		System.out.println(String.valueOf(code_grade[1]) + " pins with only the correct color");
