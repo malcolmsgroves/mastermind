@@ -3,17 +3,26 @@ package game;
 public class Guess {
 	
 	private int[] code;
-	protected int elim_count;
-	protected boolean is_guessed;
 	
+	/*
+	 * Constructor
+	 */
 	public Guess(int[] code) {
-		this.code = code;
-		elim_count = 0;
+		this.code = new int[code.length];
+		for(int i = 0; i < code.length; ++i) {
+			this.code[i] = code[i];
+		}
 	}
 	
-	public void clean() {
-		elim_count = 0;
+	/*
+	 * Copy constructor
+	 */
+	public Guess(Guess guess) {
+		this(guess.get_code());
 	}
+	
+	
+	
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -48,12 +57,12 @@ public class Guess {
 		return code;
 	}
 	
-	public void set_elim_count(int count) {
-		this.elim_count = count;
+	public String to_string() {
+		
+		String output = "";
+		for(int i = 0; i < code.length; ++i) {
+			output += (String.valueOf(code[i]) + " ");
+		}
+		return output;
 	}
-	
-	public int get_elim_count() {
-		return elim_count;
-	}
-
 }

@@ -3,6 +3,7 @@ package game;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 public class MasterAlg {
 
@@ -32,34 +33,57 @@ public class MasterAlg {
 	public int[] next_guess(int[] grade) {
 
 		Iterator<Guess> iter = set.iterator();
-		Guess max_elim = null;
-		
+		ArrayList<Guess> to_remove = new ArrayList<Guess>();
 
+		
+		
 		// iterate through set of possibilities
 		while(iter.hasNext()) {
 
+			
 			Guess next = iter.next();
+			//Guess copy = new Guess(next);
 
 			// if a possibility is true, it would give the given grade to the curr
-			if(!equal(grade, calc_grade(next.get_code(), curr.get_code()))) {
-				set.remove(next);
-			}
-			
-			// calculate the number of possibilities that could be eliminated by the code
-			else {
-				next.set_elim_count(count_elim(next));
-				if(max_elim == null || max_elim.get_elim_count() < next.get_elim_count()) {
-					max_elim = next;  // update max_elim
-				}
+			if(!equal(grade, calc_grade(next, curr))) {
+				to_remove.add(next);
 			}
 		}
+
+		// remove Guesses in to_remove
+		for(Guess g : to_remove) {
+			set.remove(g);
+		}
 		
-		curr = max_elim;
+		// reset iterator
+		iter = set.iterator();
+		
+		Guess next_guess = null;
+		int max_elim = -1;
+		
+
+		// iterate through and count eliminations for each
+		while(iter.hasNext()) {
+			// calculate the number of possibilities that could be eliminated by the code
+			Guess next = iter.next();
+			
+			
+			int elim_count = count_elim(next);
+			
+			if(max_elim < elim_count) {
+				max_elim = elim_count;  // update max_elim
+				next_guess = next;
+			}
+		}
+
+		curr = next_guess;
+		System.out.println(curr.to_string());
 		return curr.get_code();
 	}
 
 	private int count_elim(Guess guess) {
 
+		
 		int count = 0;
 		Iterator<Guess> iter = set.iterator();
 
@@ -69,16 +93,17 @@ public class MasterAlg {
 			// try every grade
 			for(int pos = 0; pos < NUM_POSITIONS; ++pos) {
 				for(int col = 0; col < NUM_POSITIONS - pos; ++col) {
-					
+
 					int[] grade = {pos, col};
-					
+
 					// if a possibility is true, it would give the given grade to the curr
-					if(!equal(grade, calc_grade(next.get_code(), guess.get_code()))) {
+					if(!equal(grade, calc_grade(next, guess))) {
 						count++;
 					}
 				}
 			}
 		}
+		
 		return count;
 	}
 
@@ -99,10 +124,16 @@ public class MasterAlg {
 		}
 	}
 
-	private int[] calc_grade(int[] guess, int[] answer) {
+	private int[] calc_grade(Guess possibility, Guess target) {
 
 		int corr_pos = 0;
 		int corr_color = 0;
+		
+		Guess possibility_copy = new Guess(possibility);
+		Guess target_copy = new Guess(target);
+		
+		int[] guess = possibility_copy.get_code();
+		int[] answer = target_copy.get_code();
 
 
 		// counts correct color & position once and overwrite them with used chars
@@ -124,6 +155,7 @@ public class MasterAlg {
 				}
 			}
 		}
+		
 
 		return new int[] {corr_pos, corr_color};
 

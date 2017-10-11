@@ -33,12 +33,15 @@ public class Mastermind {
 		
 		MasterAlg alg = new MasterAlg();
 		int[] computer_grade = grade(int_to_char(alg.first_guess()));
-		
+		print_code(secret_code);
+		System.out.println();
 		
 		while(!game_won && round < NUM_ROUNDS) {
 			char[] next_guess = int_to_char(alg.next_guess(computer_grade));
 			computer_grade = grade(next_guess);
 			++round;
+			print_code(next_guess);
+			
 		}
 		
 		if(game_won) {
@@ -54,6 +57,8 @@ public class Mastermind {
 		char[] char_code = new char[NUM_POSITIONS];
 		
 		for(int i = 0; i < int_code.length; ++i) {
+			
+			// I am rewritting the codes with the USED_ANSWER accidentally
 			char_code[i] = COLORS[int_code[i]];
 		}
 		
@@ -142,6 +147,7 @@ public class Mastermind {
 		int corr_pos = 0;
 		int corr_color = 0;
 		
+		//TODO refactor to avoid clone()
 		char[] copy = secret_code.clone();
 		
 		
