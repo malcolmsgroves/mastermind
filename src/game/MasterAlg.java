@@ -77,7 +77,7 @@ public class MasterAlg {
 		}
 
 		curr = next_guess;
-		System.out.println(curr.to_string());
+		
 		return curr.get_code();
 	}
 

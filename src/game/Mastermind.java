@@ -38,9 +38,11 @@ public class Mastermind {
 		
 		while(!game_won && round < NUM_ROUNDS) {
 			char[] next_guess = int_to_char(alg.next_guess(computer_grade));
-			computer_grade = grade(next_guess);
-			++round;
 			print_code(next_guess);
+			computer_grade = grade(next_guess);
+			print_grade(computer_grade);
+			++round;
+			
 			
 		}
 		
@@ -119,7 +121,7 @@ public class Mastermind {
 		print_code(code_guess);
 
 		int[] code_grade = grade(code_guess);
-		if(code_grade[0] == NUM_POSITIONS) game_won = true;
+		
 
 		print_grade(code_grade);
 	}
@@ -148,7 +150,11 @@ public class Mastermind {
 		int corr_color = 0;
 		
 		//TODO refactor to avoid clone()
-		char[] copy = secret_code.clone();
+		char[] copy = new char[NUM_POSITIONS];
+		
+		for(int i = 0; i < NUM_POSITIONS; ++i) {
+			copy[i] = secret_code[i];
+		}
 		
 		
 
@@ -171,6 +177,8 @@ public class Mastermind {
 				}
 			}
 		}
+		
+		if(corr_pos == NUM_POSITIONS) game_won = true;
 		
 		return new int[] {corr_pos, corr_color};
 
