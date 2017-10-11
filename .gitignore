@@ -1,6 +1,13 @@
 # Compiled class file
 *.class
 
+# Eclipse artifacts
+.classpath
+.project
+
+# Ant Build directory
+Build/
+
 # Log file
 *.log
 

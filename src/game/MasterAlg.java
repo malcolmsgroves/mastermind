@@ -15,8 +15,7 @@ import java.util.ArrayList;
 public class MasterAlg {
 
 	// [0, 0, 1, 1] is shown to be the most effective first guess
-	private static final int[] FIRST_GUESS = {0, 0, 1, 1};
-	private static final int NUM_POSITIONS = 4;
+	private static final int[] FIRST_GUESS = {0, 0, 1, 1, 2, 2, 3, 3, 4, 4};
 	private static final int NUM_COLORS = 6;
 	private static final int USED_GUESS = -1;
 	private static final int USED_ANSWER = -2;
@@ -24,23 +23,30 @@ public class MasterAlg {
 
 	private HashSet<Guess> set;
 	private Guess curr;
+	private int num_positions;
 
 	/**
 	 * Constructs a MasterAlg object and initializes instances of
 	 * set, curr, and instantiates the set.
 	 */
-	public MasterAlg() {
+	public MasterAlg(int num_positions) {
+		this.num_positions = num_positions;
 		set = new HashSet<Guess>();
-		curr = new Guess(FIRST_GUESS);
 		instantiate_set();
 	}
 
 	/**
-	 * Gets the first guess.
+	 * Gets the first guess, which is a subset of the
+	 * FIRST_GUESS constant of length num_positions
 	 * @return	First Guess int[] code
 	 */
 	public int[] first_guess() {
-		return FIRST_GUESS;
+		int[] first_guess = new int[num_positions];
+		for(int i = 0; i < num_positions; ++i) {
+			first_guess[i] = FIRST_GUESS[i];
+		}
+		curr = new Guess(first_guess);
+		return first_guess;
 	}
 
 	/**
@@ -114,8 +120,8 @@ public class MasterAlg {
 			Guess next = iter.next();
 
 			
-			for(int pos = 0; pos < NUM_POSITIONS; ++pos) {
-				for(int col = 0; col < NUM_POSITIONS - pos; ++col) {
+			for(int pos = 0; pos < num_positions; ++pos) {
+				for(int col = 0; col < num_positions - pos; ++col) {
 
 					int[] grade = {pos, col};
 
@@ -134,7 +140,7 @@ public class MasterAlg {
 	 * a recursive helper method.
 	 */
 	private void instantiate_set() {
-		instantiate_set(0, new int[NUM_POSITIONS]);
+		instantiate_set(0, new int[num_positions]);
 	}
 
 	/*
@@ -146,7 +152,7 @@ public class MasterAlg {
 	private void instantiate_set(int index, int[] possible_code) {
 		
 		// base case when code array is full
-		if(index == NUM_POSITIONS) {
+		if(index == num_positions) {
 			set.add(new Guess(possible_code));
 			return;
 		}
@@ -154,7 +160,7 @@ public class MasterAlg {
 		// Add a pin of each color to the next position
 		for(int i = 0; i < NUM_COLORS; ++i) {
 			
-			int[] new_code = new int[NUM_POSITIONS];
+			int[] new_code = new int[num_positions];
 			for(int j = 0; j < possible_code.length; ++j) {
 				new_code[j] = possible_code[j];
 			}
@@ -186,7 +192,7 @@ public class MasterAlg {
 
 
 		// correct color and position
-		for(int i = 0; i < NUM_POSITIONS; ++i) {
+		for(int i = 0; i < num_positions; ++i) {
 			if(guess[i] == answer[i]) {
 				corr_pos++;
 				answer[i] = USED_ANSWER;
@@ -195,8 +201,8 @@ public class MasterAlg {
 		} // for every position in the array
 
 		// correct color only
-		for(int i = 0; i < NUM_POSITIONS; ++i) {
-			for(int j = 0; j < NUM_POSITIONS; ++j) {
+		for(int i = 0; i < num_positions; ++i) {
+			for(int j = 0; j < num_positions; ++j) {
 				if(guess[i] == answer[j]) {
 					corr_color++;
 					answer[j] = USED_ANSWER;

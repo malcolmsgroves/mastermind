@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project>
+	<target name="init">
+		<tstamp/>
+	</target>
+
+	<target name="compile" depends="init">
+		<mkdir dir="build/classes"/>
+		<javac srcdir="src" destdir="build/classes" includeantruntime="false"/>
+	</target>
+
+	<target name="jar">
+		<mkdir dir="build/jar"/>
+		<jar destfile="build/jar/mastermind.jar" basedir="build/classes">
+			<manifest>
+				<attribute name="Main-Class" value="game.PlayMastermind"/>
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="run">
+		<java jar="build/jar/mastermind.jar" fork="true"/>
+	</target>
+
+	<target name="build" depends="compile,jar"/>
+
+
+	<target name="clean">
+		<delete dir="build"/>
+	</target>
+</project>
