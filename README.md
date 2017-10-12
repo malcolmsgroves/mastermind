@@ -52,4 +52,4 @@ CONGRATULATIONS YOU WIN
 
 ## Improvements
 * The mastermind algorithm implemented here is not an exact replicate of Knuth's mastermind algorithm. Guesses should be selected from all code permutations each round. The guesses should be selected based on the minimum 
-* 
+* The code representation should be refactored so that all classes operate on Guess objects. As it stands now, only the MasterAlg class uses Guess objects to store codes.
