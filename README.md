@@ -9,19 +9,19 @@ This project implements an optimized minimax algorithm developed by Donald Knuth
 
 1. Create a set S of all possible code permutations. For six colors and four pin positions, there are 1296 possible codes.
 
-2. Begin with the initial guess 0 0 1 1, which makes it possible to always solve the code in 5 moves or less.
+2. Begin with the initial guess [0, 0, 1, 1], which makes it possible to always solve the code in 5 moves or less.
 
 3. Score the guess
-  - One black pin for every pin with the correct color and position.
-  - One white pin for every pin with only the correct color.
+    - One black pin for every pin with the correct color and position.
+    - One white pin for every pin with only the correct color.
   
 4. If the score is four black pins, the game is won.
   
 5. Remove all codes from S that, if correct, would not give the guess the same score.
 
 6. Select the next guess from S using the following minimax technique
-  - For each code in S, count the number of codes in S that would be eliminated for each possible score.
-  - Choose the code in S that might eliminate the largest number of codes in S.
+    - For each code in S, count the number of codes in S that would be eliminated for each possible score.
+    - Choose the code in S that might eliminate the largest number of codes in S.
   
 7. Repeat from step 3 until the correct code is discovered.
 
