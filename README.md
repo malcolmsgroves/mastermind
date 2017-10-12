@@ -2,7 +2,7 @@
 A mastermind game in the terminal. A random code is generated. The user can opt to play or to allow the computer to play with an optimized strategy. Mastermind rules and strategies can be found [here](https://en.wikipedia.org/wiki/Mastermind_(board_game)).
 
 ## Running
-Download the project to a local repository. In the terminal, **cd** into the respository and type ```ant build``` to compile the src files and build the jar file. Type ```ant run``` to run the application. You will be prompted to play mastermind. If you opt not to play, the computer will play.
+Download the project to a local repository. In the terminal, ```cd``` into the respository and type ```ant build``` to compile the src files and build the jar file. Type ```ant run``` to run the application. You will be prompted to play mastermind. If you opt not to play, the computer will play.
 
 ## Optimized Mastermind Algorithm
 This project implements an optimized minimax algorithm developed by Donald Knuth in 1977 for solving the mastermind code. The algorithm consists of 5 steps:
@@ -24,6 +24,7 @@ This project implements an optimized minimax algorithm developed by Donald Knuth
   - Choose the code in S that might eliminate the largest number of codes in S.
   
 7. Repeat from step 3 until the correct code is discovered.
+
 
 **Sample Output**
 
@@ -47,9 +48,8 @@ Y B Y R
 0 pins with only the correct color
 
 CONGRATULATIONS YOU WIN
-
 ```
 
 ## Improvements
 * The mastermind algorithm implemented here is not an exact replicate of Knuth's mastermind algorithm. Guesses should be selected from all code permutations each round. The guesses should be selected based on the minimum 
-
+* 
